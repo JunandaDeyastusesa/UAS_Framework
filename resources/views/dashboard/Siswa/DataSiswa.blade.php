@@ -110,16 +110,16 @@
                                             <form action="{{ route('siswa.destroy', $guru->id) }}" method="POST">
                                                 @csrf
                                                 @method('delete')
-                                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                                                <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal"
                                                     data-target="#showModal{{ $guru->id }}">
                                                     <i class="fas fa-user"></i>
                                                 </button>
 
                                                 <a href="{{ route('siswa.edit', $guru->id) }}"
-                                                    class="btn btn-warning btn-sm">
+                                                    class="btn btn-outline-warning btn-sm">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <button type="submit" class="btn-delete btn btn-danger btn-sm"
+                                                <button type="submit" class="btn-delete btn btn-outline-danger btn-sm"
                                                     data-name="{{ $guru->nama_siswa }}">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
@@ -130,7 +130,7 @@
                                     <div class="modal fade m-0" data-keyboard="false" data-backdrop="static"
                                         id="showModal{{ $guru->id }}" tabindex="-1" role="dialog"
                                         aria-labelledby="showModalLabel{{ $guru->id }}" aria-hidden="true">
-                                        <div class="modal-dialog modal-xl" role="document">
+                                        <div class="modal-dialog modal-lg" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="showModalLabel{{ $guru->id }}">Detail
@@ -155,18 +155,6 @@
 
                                                             <div class="form-group col-sm-4">
                                                                 <div class="form-group">
-                                                                    <label for="nisn{{ $guru->id }}">NIK</label>
-                                                                    <p>{{ $guru->NIK }}</p>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="nisn{{ $guru->id }}">NO. KK (Kartu
-                                                                        Keluarga)</label>
-                                                                    <p>{{ $guru->NO_KK }}</p>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="form-group col-sm-4">
-                                                                <div class="form-group">
                                                                     <label for="nisn{{ $guru->id }}">NIS</label>
                                                                     <p>{{ $guru->NIS }}</p>
                                                                 </div>
@@ -177,16 +165,15 @@
                                                             </div>
 
                                                             <div class="form-group col-sm-4">
-                                                                <label for="nama_siswa{{ $guru->id }}">Nama
-                                                                    Lengkap</label>
-                                                                <p>{{ $guru->nama_siswa }}</p>
+                                                                <div class="form-group">
+                                                                    <label for="nama_siswa{{ $guru->id }}">Nama Lengkap</label>
+                                                                    <p>{{ $guru->nama_siswa }}</p>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="tanggal_lahir{{ $guru->id }}">Tanggal Lahir</label>
+                                                                    <p>{{ $guru->tanggal_lahir }}</p>
+                                                                </div>
                                                             </div>
-                                                            <div class="form-group col-sm-4">
-                                                                <label for="tanggal_lahir{{ $guru->id }}">Tanggal
-                                                                    Lahir</label>
-                                                                <p>{{ $guru->tanggal_lahir }}</p>
-                                                            </div>
-
 
                                                             <div class="form-group col-sm-4">
                                                                 <label for="jenis_kelamin{{ $guru->id }}">Jenis

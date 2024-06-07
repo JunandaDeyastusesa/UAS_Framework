@@ -9,6 +9,7 @@ use App\Models\Guru;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class KelasController extends Controller
 {
@@ -17,9 +18,9 @@ class KelasController extends Controller
      */
     public function index()
     {
+        confirmDelete();
         $title = "Data Kelas";
-        $kelas = Kelas::all();
-
+        $kelas = Kelas::withCount('siswa')->orderBy('angka_kelas')->get();
         $classNames = [
             1 => 'Kelas 1',
             2 => 'Kelas 2',
@@ -61,20 +62,24 @@ class KelasController extends Controller
 
         $validator = Validator::make($request->all(), [
             'angka_kelas' => 'required|unique:kelas,angka_kelas',
-        ], []);
+            'nama_kelas' => 'required',
+        ], $messages);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
         // ELOQUENT
-        $kelas = new kelas;
+        $kelas = new Kelas;
         $kelas->angka_kelas = $request->angka_kelas;
         $kelas->nama_kelas = $request->nama_kelas;
         $kelas->save();
 
-        return redirect()->route('kelas.index')->with('Success', 'Data berhasil ditambahkan');
+        Alert::success('Berhasil Tambah Data', 'Data berhasil ditambahkan.');
+
+        return redirect()->route('kelas.index');
     }
+
 
     /**
      * Display the specified resource.
@@ -117,7 +122,8 @@ class KelasController extends Controller
         ];
 
         $validator = Validator::make($request->all(), [
-            'angka_kelas' => 'required|unique:kelas,angka_kelas',
+            // 'angka_kelas' => 'required|unique:kelas,angka_kelas',
+            'nama_kelas' => 'required|unique:kelas,angka_kelas',
         ], []);
 
         if ($validator->fails()) {
@@ -126,10 +132,13 @@ class KelasController extends Controller
 
         // ELOQUENT
         $kelas = Kelas::findOrFail($id);
-        $kelas->angka_kelas = $request->angka_kelas;
+        // $kelas->angka_kelas = $request->angka_kelas;
+        $kelas->nama_kelas = $request->nama_kelas;
         $kelas->save();
 
-        return redirect()->route('kelas.index')->with('Success', 'Data berhasil diubah');
+        Alert::success('Berhasil di Ubah', 'Data berhasil diperbarui.');
+
+        return redirect()->route('kelas.index');
     }
 
     /**
@@ -140,6 +149,7 @@ class KelasController extends Controller
         Kelas::destroy($id);
 
         // Redirect dengan pesan sukses
+        Alert::success('Data Telah di Hapus', 'Data Berhasil di Hapus.');
         return redirect()->back()->with('success', 'Kelas berhasil dihapus.');
     }
 }

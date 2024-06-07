@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Siswa;
 use App\Models\Kelas;
+use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class SiswaController extends Controller
@@ -40,8 +41,22 @@ class SiswaController extends Controller
      */
     public function store(Request $request)
     {
+        // Pesan kesalahan kustom
+        $messages = [
+            'required' => ':attribute harus diisi.',
+            'unique' => ':attribute sudah ada.',
+            'numeric' => ':attribute harus berupa angka.',
+            'string' => ':attribute harus berupa string.',
+            'max' => ':attribute tidak boleh lebih dari :max karakter.',
+            'date' => ':attribute harus berupa tanggal yang valid.',
+            'in' => ':attribute harus salah satu dari: :values.',
+            'exists' => ':attribute tidak valid.',
+            'image' => ':attribute harus berupa gambar.',
+            'mimes' => ':attribute harus berupa file dengan tipe: :values.',
+        ];
+
         // Validasi data yang diterima dari form
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'NISN' => 'required|unique:siswas,nisn|numeric',
             'NIS' => 'required|numeric',
             'nama_siswa' => 'required|string|max:255',
@@ -53,7 +68,12 @@ class SiswaController extends Controller
             'tempat' => 'required|string|max:255',
             'anak_ke' => 'required|numeric',
             'foto_siswa' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ], ['NISN.unique' => 'NISN sudah ada.']);
+        ], $messages);
+
+        // Jika validasi gagal, kembali ke halaman sebelumnya dengan pesan kesalahan
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         // Inisialisasi objek Siswa
         $siswa = new Siswa();
@@ -78,11 +98,14 @@ class SiswaController extends Controller
 
         // Simpan data siswa
         $siswa->save();
-        Alert::success('Added Successfully', 'Employee Data Added Successfully.');
+
+        // Mengirimkan notifikasi sukses menggunakan Alert
+        Alert::success('Added Successfully', 'Data Siswa berhasil ditambahkan.');
 
         // Redirect ke halaman yang sesuai
         return redirect()->route('siswa.index')->with('success', 'Data Siswa berhasil disimpan!');
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -100,27 +123,42 @@ class SiswaController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        // Pesan kesalahan kustom
+        $messages = [
+            'required' => ':attribute harus diisi.',
+            'unique' => ':attribute sudah ada.',
+            'numeric' => ':attribute harus berupa angka.',
+            'string' => ':attribute harus berupa string.',
+            'max' => ':attribute tidak boleh lebih dari :max karakter.',
+            'date' => ':attribute harus berupa tanggal yang valid.',
+            'in' => ':attribute harus salah satu dari: :values.',
+            'exists' => ':attribute tidak valid.',
+            'image' => ':attribute harus berupa gambar.',
+            'mimes' => ':attribute harus berupa file dengan tipe: :values.',
+        ];
+
         // Validasi data yang diterima dari form
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'nama_siswa' => 'required|string|max:255',
-            'NISN' => 'required|numeric',
             'tanggal_lahir' => 'required|date',
             'wali_siswa' => 'required|string|max:255',
             'jenis_kelamin' => 'required|in:laki,perempuan',
-            // 'kelas_id' => 'required|exists:kelas,id',
+            'kelas_id' => 'required|exists:kelas,id',
             'agama' => 'required|string|max:255',
             'tempat' => 'required|string|max:255',
             'anak_ke' => 'required|numeric',
-            'semester' => 'required|in:Semester 1,Semester 2',
-            'foto_siswa' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        ], $messages);
+
+        // Jika validasi gagal, kembali ke halaman sebelumnya dengan pesan kesalahan
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         // Temukan data siswa berdasarkan ID
         $siswa = Siswa::findOrFail($id);
 
         // Update data siswa
         $siswa->nama_siswa = $request->nama_siswa;
-        $siswa->NISN = $request->NISN;
         $siswa->tanggal_lahir = $request->tanggal_lahir;
         $siswa->wali_siswa = $request->wali_siswa;
         $siswa->jenis_kelamin = $request->jenis_kelamin;
@@ -142,7 +180,7 @@ class SiswaController extends Controller
         // Simpan data siswa yang telah diupdate
         $siswa->save();
 
-        Alert::success('Changed Successfully', 'Employee Data Changed Successfully.');
+        Alert::success('Changed Successfully', 'Data Siswa berhasil diperbarui.');
         // Redirect ke halaman yang sesuai
         return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil diperbarui!');
     }
@@ -165,23 +203,10 @@ class SiswaController extends Controller
         foreach ($siswas as $siswa) {
             // Periksa nilai semester saat ini
             if ($siswa->semester === 'Semester 1') {
-                $siswa->semester = 'Semester 2'; // Ubah ke semester 2
-                // if ($siswa->kelas_id === 1) {
-                //     $siswa->kelas_id = 4;
-                // } else if ($siswa->kelas_id === 4) {
-                //     $siswa->kelas_id = 5;
-                // } else if ($siswa->kelas_id === 5) {
-                //     $siswa->kelas_id = 6;
-                // } else if ($siswa->kelas_id === 6) {
-                //     $siswa->kelas_id = 7;
-                // } else if ($siswa->kelas_id === 7) {
-                //     $siswa->kelas_id = 8;
-                // } else {
-                //     $siswa->kelas_id = 10;
-                // }
-                // $siswa->save(); // Simpan perubahan
+                $siswa->semester = 'Semester 2';
+
             } else if ($siswa->semester === 'Semester 2') {
-                $siswa->semester = 'Semester 1'; // Ubah ke semester 1
+                $siswa->semester = 'Semester 1';
 
                 if ($siswa->kelas_id === "9") {
                     $siswa->kelas_id = "6";
@@ -212,12 +237,11 @@ class SiswaController extends Controller
      */
     public function destroy(string $id)
     {
-        // Temukan dan hapus data siswa berdasarkan ID
         $siswa = Siswa::findOrFail($id);
         $siswa->delete();
-        Alert::success('Deleted Successfully', 'Employee Data Deleted Successfully.');
+        Alert::success('Data Telah di Hapus', 'Data Siswa Berhasil di Hapus.');
 
         // Redirect ke halaman yang sesuai
-        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil dihapus!');
+        return redirect()->route('siswa.index');
     }
 }

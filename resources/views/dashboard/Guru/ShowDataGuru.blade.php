@@ -97,9 +97,6 @@
                                 <div class="form-group col-md-6">
                                     <label for="exampleInputFile">Foto</label>
                                     <div class="input-group">
-                                        <div class="custom-file">
-                                            <input name="foto" type="file" id="inputFoto" accept="image/*">
-                                        </div>
                                     </div>
                                     <div id="previewContainer">
                                         <img id="previewFoto" src="{{ Storage::url('guru/' . $guru->foto) }}"
@@ -124,24 +121,11 @@
                                             class="form-control" id="exampleInputEmail1" placeholder="Masukkan Nama..."
                                             readonly>
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="exampleInputEmail1">Kelas</label>
-                                        @if ($guru->kelas->angka_kelas === 8)
-                                            <input type="text" value="Tidak Ada Kelas" name="nama_guru"
-                                                class="form-control" id="exampleInputEmail1"
-                                                placeholder="Masukkan Nama..." readonly>
-                                        @else
-                                            <input type="text" value="{{ $guru->kelas->angka_kelas }}"
-                                                name="nama_guru" class="form-control" id="exampleInputEmail1"
-                                                placeholder="Masukkan Nama..." readonly>
-                                        @endif
-                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-info">Submit</button>
-                            <button type="reset" class="btn btn-danger float-right">reset</button>
+                            <a href="{{ route('guru.index') }}" class="btn btn-outline-secondary float-right">Kembali</a>
                         </div>
                     </form>
                 </div>
