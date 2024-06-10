@@ -55,7 +55,7 @@ class SiswaController extends Controller
     public function create()
     {
         $title = "Tambah Siswa";
-        $kelas = Kelas::all();
+        $kelas = Kelas::orderBy('angka_kelas')->get();
         return view('dashboard.Siswa.TambahDataSiswa', compact('title', 'kelas'));
     }
 
@@ -136,7 +136,7 @@ class SiswaController extends Controller
     public function edit(string $id)
     {
         $title = "Edit Siswa";
-        $kelas = Kelas::all();
+        $kelas = Kelas::orderBy('angka_kelas')->get();
         $siswa = Siswa::findOrFail($id);
         return view('dashboard.Siswa.EditDataSiswa', compact('title', 'siswa', 'kelas'));
     }
@@ -230,18 +230,18 @@ class SiswaController extends Controller
             } else if ($siswa->semester === 'Semester 2') {
                 $siswa->semester = 'Semester 1';
 
-                if ($siswa->kelas_id === "9") {
-                    $siswa->kelas_id = "6";
-                } else if ($siswa->kelas_id === 6) {
-                    $siswa->kelas_id = 9;
-                } else if ($siswa->kelas_id === 5) {
-                    $siswa->kelas_id = 6;
-                } else if ($siswa->kelas_id === 6) {
-                    $siswa->kelas_id = 7;
-                } else if ($siswa->kelas_id === 7) {
-                    $siswa->kelas_id = 8;
+                if ($siswa->kelas_id == 13) {
+                    $siswa->kelas_id = 14;
+                } else if ($siswa->kelas_id == 14) {
+                    $siswa->kelas_id = 20;
+                } else if ($siswa->kelas_id == 20) {
+                    $siswa->kelas_id = 17;
+                } else if ($siswa->kelas_id == 17) {
+                    $siswa->kelas_id = 18;
+                } else if ($siswa->kelas_id == 18) {
+                    $siswa->kelas_id = 19;
                 } else {
-                    $siswa->kelas_id = 10;
+                    $siswa->kelas_id = 22;
                 }
             }
             Alert::success('Siswa Telah Naik Kelas', 'Siswa Telah Berhasil Naik Kelas.');

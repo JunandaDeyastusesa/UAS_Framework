@@ -1,7 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Siswa;
+use App\Models\Kelas;
+use App\Models\Ruangan;
+use App\Models\Guru;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,10 +26,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('welcome');
     }
     public function dashboard(){
         $title = "Dashboard";
-        return view('dashboard.index', compact('title'));
+        $siswaAll = Siswa::count();
+        $sarana = Ruangan::count();
+        $kelasAll = Kelas::count();
+        $data = Siswa::latest()->take(5)->get();
+        $Guru = Guru::count();
+        return view('welcome', 
+        compact('title','sarana','data','kelasAll','siswaAll','Guru'));
+
     }
 }

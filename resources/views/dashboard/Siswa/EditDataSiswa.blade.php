@@ -117,12 +117,16 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-sm-4">
-                                <label for="agama">Agama</label>
-                                <input type="text" name="agama"
-                                    class="form-control @error('agama') is-invalid @enderror" id="agama"
-                                    value="{{ $errors->any() ? old('agama') : $siswa->agama }}"
-                                    placeholder="Masukkan Agama...">
+                            <div class="form-group col-md-4">
+                                <label for="exampleSelectBorder">Agama</label>
+                                <select name="agama" class="custom-select form-control @error('agama') is-invalid @enderror">
+                                    <option readonly>Masukkan Data Agama...</option>
+                                    <option value="Islam" {{ $siswa->agama == 'Islam' ? 'selected' : '' }}>Islam</option>
+                                    <option value="Kristen" {{ $siswa->agama == 'Kristen' ? 'selected' : '' }}>Kristen</option>
+                                    <option value="Hindu" {{ $siswa->agama == 'Hindu' ? 'selected' : '' }}>Hindu</option>
+                                    <option value="Budha" {{ $siswa->agama == 'Budha' ? 'selected' : '' }}>Budha</option>
+                                    <option value="Khongucu" {{ $siswa->agama == 'Khongucu' ? 'selected' : '' }}>Khongucu</option>
+                                </select>
                                 @error('agama')
                                     <div class="text-danger"><small>{{ $message }}</small></div>
                                 @enderror
@@ -139,7 +143,7 @@
                             </div>
                             <div class="form-group col-sm-4">
                                 <label for="anak_ke">Anak Ke</label>
-                                <input type="number" name="anak_ke"
+                                <input type="number" min="1" name="anak_ke"
                                     class="form-control @error('anak_ke') is-invalid @enderror" id="anak_ke"
                                     value="{{ $errors->any() ? old('anak_ke') : $siswa->anak_ke }}"
                                     placeholder="Masukkan Anak Ke...">

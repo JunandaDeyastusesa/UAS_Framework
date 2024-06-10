@@ -39,7 +39,7 @@ class GuruController extends Controller
     public function create()
     {
         $title = "Tambah Guru";
-        $kelas = Kelas::all();
+        $kelas = Kelas::orderBy('angka_kelas')->get();
         $guru = Guru::all();
         // return view('list-barang.create', compact('_satuan'));
         return view('dashboard.guru.TambahDataGuru', compact('title', 'guru', 'kelas'));

@@ -101,7 +101,7 @@
                                     <label for="exampleSelectBorder">Jenis Kelamin</label>
                                     <select name="jenis_kelamin" class="custom-select form-control @error('jenis_kelamin') is-invalid @enderror">
                                         <option readonly>Pilih Jenis Kelamin...</option>
-                                        <option value="Laki-laki" {{ $guru->jenis_kelamin == 'Laki laki' ? 'selected' : '' }}>Laki laki</option>
+                                        <option value="Laki-laki" {{ $guru->jenis_kelamin == 'Laki-laki' ? 'selected' : '' }}>Laki laki</option>
                                         <option value="Perempuan" {{ $guru->jenis_kelamin == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
                                     </select>
                                     @error('jenis_kelamin')

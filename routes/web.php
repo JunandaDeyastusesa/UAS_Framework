@@ -29,7 +29,8 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () { return view('welcome'); })->middleware('protect');
+// Route::get('/', function () { return view('welcome'); })->middleware('protect');
+Route::get('/', [HomeController::class, 'dashboard'])->name('/')->middleware('protect');
 
 // Route::get('/dashboard',[HomeController::class,'dashboard']);
 // Route::get('/dashboard/index', [DashboardController::class, 'index'])->name('dashboard.index');

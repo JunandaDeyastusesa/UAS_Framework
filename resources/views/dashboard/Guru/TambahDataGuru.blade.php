@@ -154,7 +154,7 @@
                                             @foreach ($kelas as $class)
                                                 @if ($class->angka_kelas < 7)
                                                     <option value="{{ $class->id }}" {{ old('kelas_id') == $class->id ? 'selected' : '' }}>
-                                                        {{ $class->angka_kelas }}
+                                                        {{ $class->nama_kelas }}
                                                     </option>
                                                 @endif
                                             @endforeach

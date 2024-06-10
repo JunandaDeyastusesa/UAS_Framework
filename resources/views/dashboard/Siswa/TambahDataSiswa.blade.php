@@ -91,9 +91,16 @@
                                     <div class="text-danger"><small>{{ $message }}</small></div>
                                 @enderror
                             </div>
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-md-4">
                                 <label for="agama">Agama</label>
-                                <input type="text" name="agama" class="form-control @error('agama') is-invalid @enderror" id="agama" value="{{ old('agama') }}" placeholder="Masukkan Agama...">
+                                <select name="agama" class="custom-select form-control @error('agama') is-invalid @enderror" id="agama">
+                                    <option readonly selected>Masukkan Data Agama...</option>
+                                    <option value="Islam" {{ old('agama') == 'Islam' ? 'selected' : '' }}>Islam</option>
+                                    <option value="Kristen" {{ old('agama') == 'Kristen' ? 'selected' : '' }}>Kristen</option>
+                                    <option value="Hindu" {{ old('agama') == 'Hindu' ? 'selected' : '' }}>Hindu</option>
+                                    <option value="Budha" {{ old('agama') == 'Budha' ? 'selected' : '' }}>Budha</option>
+                                    <option value="Khongucu" {{ old('agama') == 'Khongucu' ? 'selected' : '' }}>Khongucu</option>
+                                </select>
                                 @error('agama')
                                     <div class="text-danger"><small>{{ $message }}</small></div>
                                 @enderror
@@ -107,7 +114,7 @@
                             </div>
                             <div class="form-group col-sm-4">
                                 <label for="anak_ke">Anak Ke</label>
-                                <input type="number" name="anak_ke" class="form-control @error('anak_ke') is-invalid @enderror" id="anak_ke" value="{{ old('anak_ke') }}" placeholder="Masukkan Anak Ke...">
+                                <input type="number" min="1" name="anak_ke" class="form-control @error('anak_ke') is-invalid @enderror" id="anak_ke" value="{{ old('anak_ke') }}" placeholder="Masukkan Anak Ke...">
                                 @error('anak_ke')
                                     <div class="text-danger"><small>{{ $message }}</small></div>
                                 @enderror

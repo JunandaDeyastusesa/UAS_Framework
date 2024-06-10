@@ -70,9 +70,8 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color: #1d1d1d;">
             <!-- Brand Logo -->
             <a href="index3.html" class="brand-link">
-                <img src="{{ asset('lte/dist/img/LOGO-SD-BHAYANGKARI.png') }}" alt="AdminLTE Logo"
-                    class="brand-image img-circle elevation-3">
-                <span class="brand-text font-weight-light">SIAKAD</span>
+                <img src="{{ asset('lte/dist/img/sd.png') }}" alt="Logo sd" class="brand-image img-circle elevation-3">
+                <span class="brand-text font-weight-light">SD XYZZ</span>
             </a>
 
             <!-- Sidebar -->
@@ -83,6 +82,14 @@
                         data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
           with font-awesome or any other icon font library -->
+          <li class="nav-item">
+            <a href="{{ url('/') }}" class="nav-link">
+                <i class="nav-icon fas fa-table"></i>
+                <p> Dashboard
+                    {{-- <span class="badge badge-info right">2</span> --}}
+                </p>
+            </a>
+        </li>
                         <li class="nav-header">Operasional</li>
                         <li class="nav-item">
                             <a href="{{ url('/siswa') }}" class="nav-link">
