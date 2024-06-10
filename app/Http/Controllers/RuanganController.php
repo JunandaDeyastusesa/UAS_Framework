@@ -6,6 +6,7 @@ use App\Models\Barang;
 use App\Models\Ruangan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class RuanganController extends Controller
 {
@@ -19,6 +20,7 @@ class RuanganController extends Controller
      */
     public function showLantai($lantai)
     {
+        confirmDelete();
         $title = "Ruangan";
         $dataRuangan = Ruangan::where('lantai', $lantai)->get();
 
@@ -43,12 +45,20 @@ class RuanganController extends Controller
      */
     public function store(Request $request)
     {
+        // Pesan validasi kustom
+        $messages = [
+            'required' => ':Attribute harus diisi.',
+            'in' => ':Attribute harus salah satu dari :values.',
+            'string' => ':Attribute harus berupa teks.',
+            'max' => ':Attribute tidak boleh lebih dari :max karakter.',
+        ];
+
         // Validasi input
         $validator = Validator::make($request->all(), [
             'nama' => 'required|string|max:100',
             'deskripsi' => 'nullable|string',
             'lantai' => 'required|in:Lantai 1,Lantai 2,Lantai 3',
-        ]);
+        ], $messages);
 
         // Jika validasi gagal, kembalikan pesan error
         if ($validator->fails()) {
@@ -62,8 +72,9 @@ class RuanganController extends Controller
         $ruangan->lantai = $request->input('lantai');
         $ruangan->save();
 
-        // Redirect
-        return redirect()->route('showLantai', $ruangan->lantai)->with('success', 'Ruangan berhasil dibuat.');
+        // Redirect dengan pesan sukses
+        Alert::success('Berhasil di Tambahkan', 'Data berhasil ditambahkan.');
+        return redirect()->route('showLantai', $ruangan->lantai);
     }
 
     /**
@@ -79,7 +90,7 @@ class RuanganController extends Controller
     public function edit(string $id)
     {
         // Find ruangan by id
-        $ruangan = Ruangan::query()->find((integer)$id);
+        $ruangan = Ruangan::query()->find((int)$id);
         $lantai = $ruangan->lantai;
         $title = "Edit Ruangan";
 
@@ -92,12 +103,19 @@ class RuanganController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $messages = [
+            'required' => ':Attribute harus diisi.',
+            'in' => ':Attribute harus salah satu dari :values.',
+            'string' => ':Attribute harus berupa teks.',
+            'max' => ':Attribute tidak boleh lebih dari :max karakter.',
+        ];
+
         // Validasi input
         $validator = Validator::make($request->all(), [
             'nama' => 'required|string|max:100',
             'deskripsi' => 'nullable|string',
             'lantai' => 'required|in:Lantai 1,Lantai 2,Lantai 3',
-        ]);
+        ], $messages);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -110,8 +128,9 @@ class RuanganController extends Controller
         $ruangan->fill($request->only(['nama', 'deskripsi', 'lantai']));
         $ruangan->save();
 
+        Alert::success('Berhasil di Ubah', 'Data berhasil diperbarui.');
         // Redirect
-        return redirect()->route('showLantai', $ruangan->lantai)->with('success', 'Ruangan berhasil diperbarui.');
+        return redirect()->route('showLantai', $ruangan->lantai);
     }
 
 
@@ -121,14 +140,14 @@ class RuanganController extends Controller
     public function destroy(string $id)
     {
         // Find by id
-        $findRuangan = Ruangan::findOrFail((integer)$id);
+        $findRuangan = Ruangan::findOrFail((int)$id);
         $lantai = $findRuangan->lantai;
 
         // Delete ruangan
         $findRuangan->delete();
 
+        Alert::success('Data Telah di Hapus', 'Data Berhasil di Hapus.');
         // Redirect
-        return redirect()->route('showLantai', $lantai)->with('success', 'Ruangan berhasil dihapus.');
+        return redirect()->route('showLantai', $lantai);
     }
-
 }

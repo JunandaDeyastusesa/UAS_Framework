@@ -16,6 +16,7 @@ use App\Http\Controllers\NilaiSiswaController;
 use App\Http\Controllers\PrestasiController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\SiswaController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,41 +29,30 @@ use App\Http\Controllers\SiswaController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', function () { return view('welcome'); })->middleware('protect');
 
-Route::get('/dashboard',[HomeController::class,'dashboard']);
+// Route::get('/dashboard',[HomeController::class,'dashboard']);
+// Route::get('/dashboard/index', [DashboardController::class, 'index'])->name('dashboard.index');
 
-//warga
-Route::resource('/guru', GuruController::class);
-Route::resource('/staff', StaffController::class);
-Route::resource('/siswa', SiswaController::class);
-Route::resource('/BayarSpp', PembayaranSppController::class);
-Route::resource('/nilai', NilaiSiswaController::class);
-Route::resource('/jadwal', JadwalController::class);
-Route::resource('/prestasi', PrestasiController::class);
-Route::resource('/kelas', KelasController::class);
-Route::resource('/barang', BarangController::class);
-Route::resource('/absensi', AbsensiController::class);
-// Route::get('/BayarSpp/{siswa_id}', [PembayaranSppController::class, 'create'])->name('pembayaran.create');
-// Route::get('/BayarSpp/create/{id}', [App\Http\Controllers\PembayaranSppController::class, 'create']);
+// Route::resource('/staff', StaffController::class);
+Route::resource('/guru', GuruController::class)->middleware('protect');
+Route::resource('/siswa', SiswaController::class)->middleware('protect');
+Route::resource('/jadwal', JadwalController::class)->middleware('protect');
+Route::resource('/kelas', KelasController::class)->middleware('protect');
+Route::resource('/barang', BarangController::class)->middleware('protect');
 
+// EXPORT
+Route::get('exportExcel', [SiswaController::class, 'exportExcel'])->name('siswa.exportExcel');
+Route::get('exportPdf', [SiswaController::class, 'exportPdf'])->name('siswa.exportPdf');
 
-Route::resource('/alumni', AlumniController::class);
-Route::resource('/inventaris', InventarisController::class);
 //operasional
 
-Route::get('/riwayatbayar', [PembayaranSppController::class, 'riwayatBayar'])->name('RiwayatBayar');
-// Route::get('/DaftarKelas', [NilaiSiswaController::class, 'DaftarKelas'])->name('DaftarKelas');
-// Route::get('/riwayatBayarById', [PembayaranSppController::class, 'riwayatBayarById'])->name('riwayatBayarByIds');
-// In web.php (routes file)
-
-Route::get('/riwayatBayarById/{id}/', [PembayaranSppController::class, 'riwayatBayarById'])->name('riwayatBayarById');
-Route::get('/DaftarKelas/{id}/', [NilaiSiswaController::class, 'DaftarKelas'])->name('DaftarKelas');
-
 Route::post('/update-semester', [SiswaController::class, 'updateSemester'])->name('siswa.update-semester');
-Route::resource('ruangan', RuanganController::class);
+Route::resource('ruangan', RuanganController::class)->middleware('protect');
 Route::get('/ruangan/lantai/{lantai}', [RuanganController::class, 'showLantai'])->name('showLantai');
-Route::resource('barang', BarangController::class);
+Route::resource('barang', BarangController::class)->middleware('protect');
 
+
+Auth::routes();
+
+// Route::get('/home', [HomeController::class, 'index'])->name('home');

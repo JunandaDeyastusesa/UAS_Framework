@@ -115,15 +115,16 @@
                             <div class="form-group col-sm-4">
                                 <label for="exampleSelectBorder">Kelas</label>
                                 <select name="kelas_id" class="form-control @error('kelas_id') is-invalid @enderror" id="exampleSelectBorder">
+                                    <option disabled selected>Pilih kelas</option>
                                     @foreach ($kelas as $class)
-                                        <option value="{{ $class->id }}" {{ old('kelas_id') == $class->id ? 'selected' : '' }}>{{ $class->angka_kelas }}</option>
+                                        <option value="{{ $class->id }}" {{ old('kelas_id') == $class->id ? 'selected' : '' }}>{{ $class->nama_kelas }}</option>
                                     @endforeach
                                 </select>
                                 @error('kelas_id')
                                     <div class="text-danger"><small>{{ $message }}</small></div>
                                 @enderror
                             </div>
-                            <div class="form-group col-sm-12">
+                            <div class="form-group col-sm-4">
                                 <label for="foto_siswa">Foto Siswa</label>
                                 <div class="input-group">
                                     <div class="custom-file">

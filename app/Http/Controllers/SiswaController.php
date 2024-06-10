@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SiswaExport;
 use Illuminate\Http\Request;
 use App\Models\Siswa;
 use App\Models\Kelas;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class SiswaController extends Controller
@@ -13,6 +16,10 @@ class SiswaController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->middleware('protect')->except(['index', 'show']); // Misalnya, hanya melindungi selain index dan show
+    }
     public function index()
     {
         confirmDelete();
@@ -25,6 +32,22 @@ class SiswaController extends Controller
             'data' => $data
         ]);
     }
+
+    public function exportExcel()
+    {
+        return Excel::download(new SiswaExport, 'data-siswa.xlsx');
+    }
+
+    public function exportPdf()
+    {
+        $siswas = Siswa::all();
+
+        $pdf = Pdf::loadView('dashboard.Siswa.export_pdf', compact('siswas'));
+
+        return $pdf->download('data-siswa.pdf');
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -162,7 +185,7 @@ class SiswaController extends Controller
         $siswa->tanggal_lahir = $request->tanggal_lahir;
         $siswa->wali_siswa = $request->wali_siswa;
         $siswa->jenis_kelamin = $request->jenis_kelamin;
-        $siswa->kelas_id = $request->kelas;
+        $siswa->kelas_id = $request->kelas_id;
         $siswa->agama = $request->agama;
         $siswa->tempat = $request->tempat;
         $siswa->anak_ke = $request->anak_ke;
@@ -204,7 +227,6 @@ class SiswaController extends Controller
             // Periksa nilai semester saat ini
             if ($siswa->semester === 'Semester 1') {
                 $siswa->semester = 'Semester 2';
-
             } else if ($siswa->semester === 'Semester 2') {
                 $siswa->semester = 'Semester 1';
 

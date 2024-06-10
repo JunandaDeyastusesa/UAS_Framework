@@ -6,11 +6,13 @@ use App\Models\Barang;
 use App\Models\Ruangan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class BarangController extends Controller
 {
     public function index()
     {
+        confirmDelete();
         // none
     }
 
@@ -32,6 +34,19 @@ class BarangController extends Controller
      */
     public function store(Request $request)
     {
+        $messages = [
+            'nama.required' => 'Nama harus diisi.',
+            'nama.max' => 'Nama tidak boleh lebih dari 100 karakter.',
+            'barang_baik.required' => 'Jumlah barang baik harus diisi.',
+            'barang_baik.integer' => 'Jumlah barang baik harus berupa angka.',
+            'barang_baik.min' => 'Jumlah barang baik tidak boleh kurang dari 0.',
+            'barang_rusak.required' => 'Jumlah barang rusak harus diisi.',
+            'barang_rusak.integer' => 'Jumlah barang rusak harus berupa angka.',
+            'barang_rusak.min' => 'Jumlah barang rusak tidak boleh kurang dari 0.',
+            'deskripsi.nullable' => 'Deskripsi bersifat opsional.',
+            'ruangan_id.required' => 'ID ruangan harus diisi.',
+            'ruangan_id.exists' => 'ID ruangan tidak valid.',
+        ];
         // Validasi data
         $validator = Validator::make($request->all(), [
             'nama' => 'required|max:100',
@@ -39,7 +54,7 @@ class BarangController extends Controller
             'barang_rusak' => 'required|integer|min:0',
             'deskripsi' => 'nullable',
             'ruangan_id' => 'required|exists:ruangans,id',
-        ]);
+        ], $messages);
 
         // Jika validasi gagal
         if ($validator->fails()) {
@@ -59,8 +74,9 @@ class BarangController extends Controller
         $ruangan = Ruangan::findOrFail($request->input('ruangan_id'));
         $lantai = $ruangan->lantai;
 
+        Alert::success('Berhasil di Tambahkan', 'Data berhasil di Tamabahkan.');
         // Redirect
-        return redirect()->route('showLantai', ['lantai' => $lantai])->with('success', 'Barang berhasil ditambahkan.');
+        return redirect()->route('showLantai', ['lantai' => $lantai]);
     }
 
     /**
@@ -119,7 +135,8 @@ class BarangController extends Controller
         $lantai = $ruangan->lantai;
 
         // Redirect
-        return redirect()->route('showLantai', $lantai)->with('success', 'Barang berhasil diperbarui.');
+        Alert::success('Berhasil di Perbarui', 'Data berhasil di Perbarui.');
+        return redirect()->route('showLantai', $lantai);
     }
 
     /**
@@ -136,6 +153,7 @@ class BarangController extends Controller
         // Delete barang
         $findBarang->delete();
 
-        return redirect()->route('showLantai', $lantai)->with('success', 'Barang berhasil dihapus.');
+        Alert::success('Data Telah di Hapus', 'Data Berhasil di Hapus.');
+        return redirect()->route('showLantai', $lantai);
     }
 }

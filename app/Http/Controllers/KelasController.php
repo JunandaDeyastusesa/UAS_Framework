@@ -21,19 +21,10 @@ class KelasController extends Controller
         confirmDelete();
         $title = "Data Kelas";
         $kelas = Kelas::withCount('siswa')->orderBy('angka_kelas')->get();
-        $classNames = [
-            1 => 'Kelas 1',
-            2 => 'Kelas 2',
-            3 => 'Kelas 3',
-            4 => 'Kelas 4',
-            5 => 'Kelas 5',
-            6 => 'Kelas 6',
-        ];
 
         return view('dashboard.Operational.Kelas.DataKelas', [
             'title' => $title,
             'kelas' => $kelas,
-            'nama_kelas' => $classNames
         ]);
     }
 

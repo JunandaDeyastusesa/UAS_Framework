@@ -43,6 +43,12 @@
                             data-target="#NaikKelas">
                             Naik Kelas
                         </button>
+                        <a href="{{ route('siswa.exportExcel') }}" class="btn btn-outline-success mx-2">
+                            <i class="bi bi-download me-1"></i> to Excel
+                        </a>
+                        <a href="{{ route('siswa.exportPdf') }}" class="btn btn-outline-danger">
+                            <i class="bi bi-download me-1"></i> to PDF
+                        </a>
                     </div>
 
                     {{-- MODAL --}}

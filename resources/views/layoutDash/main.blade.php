@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SD Kemala Bhayngkari 1 Surabaya</title>
+    <title>SIAKAD</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -48,7 +48,8 @@
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item ps-3">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
+                            class="fas fa-bars"></i></a>
                 </li>
             </ul>
 
@@ -69,7 +70,8 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color: #1d1d1d;">
             <!-- Brand Logo -->
             <a href="index3.html" class="brand-link">
-                <img src="{{ asset('lte/dist/img/LOGO-SD-BHAYANGKARI.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3">
+                <img src="{{ asset('lte/dist/img/LOGO-SD-BHAYANGKARI.png') }}" alt="AdminLTE Logo"
+                    class="brand-image img-circle elevation-3">
                 <span class="brand-text font-weight-light">SIAKAD</span>
             </a>
 
@@ -86,14 +88,6 @@
                             <a href="{{ url('/siswa') }}" class="nav-link">
                                 <i class="nav-icon fas fa-user-graduate"></i>
                                 <p> Siswa & Wali
-                                    {{-- <span class="badge badge-info right">2</span> --}}
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('/absensi') }}" class="nav-link">
-                                <i class="nav-icon fas fa-user-graduate"></i>
-                                <p> Absensi
                                     {{-- <span class="badge badge-info right">2</span> --}}
                                 </p>
                             </a>
@@ -121,6 +115,16 @@
                                 <p> Data Ruangan </p>
                             </a>
                         </li>
+
+                        <li class="nav-item fixed-bottom mb-2">
+                            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <i class="nav-icon fas fa-sign-out-alt"></i> {{ __('Logout') }}
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </li>
+
                     </ul>
                 </nav>
             </div>
