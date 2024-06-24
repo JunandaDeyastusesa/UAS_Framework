@@ -72,7 +72,7 @@
             <a href="index3.html" class="brand-link">
                 <img src="{{ asset('lte/dist/img/LOGO-SD-BHAYANGKARI.png') }}" alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-3">
-                <span class="brand-text font-weight-light">SIAKAD</span>
+                <span class="brand-text font-weight-light">Siakad Siswa</span>
             </a>
 
             <!-- Sidebar -->
